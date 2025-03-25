@@ -1,0 +1,85 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: "Ubuntu Mono", monospace; /* or another monospaced font */
+  background-color: #121212;
+  color: #fff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Terminal-like styling */
+.terminal {
+  background-color: #1e1e1e;
+  border-radius: 8px;
+  padding: 2rem;
+  position: relative;
+  line-height: 1.6;
+}
+
+/* Optional terminal "traffic lights" */
+.terminal-header {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+.terminal-header .dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+.dot.red { background: #ff5f56; }
+.dot.yellow { background: #ffbd2e; }
+.dot.green { background: #27c93f; }
+
+/* Blinking cursor effect */
+.cursor::after {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 16px;
+  background-color: #ccc;
+  margin-left: 4px;
+  animation: blink 1s infinite;
+  vertical-align: bottom;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+/* Language toggle link */
+.language-toggle {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  text-decoration: none;
+  color: #fff;
+  opacity: 0.8;
+}
+.language-toggle:hover {
+  opacity: 1;
+}
+
+/* Button styling */
+.button {
+  display: inline-block;
+  margin-top: 1.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #1273ea;
+  color: #fff;
+  border-radius: 4px;
+  text-decoration: none;
+}
+.button:hover {
+  background-color: #1059a3;
+}
