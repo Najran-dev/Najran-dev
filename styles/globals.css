@@ -1,7 +1,25 @@
+/* Base styles */
 html, body {
   margin: 0;
   padding: 0;
   font-family: "Ubuntu Mono", monospace; /* or another monospaced font */
+  transition: background-color 0.3s, color 0.3s;
+  box-sizing: border-box;
+}
+
+/* Default dark theme (backwards compatible) */
+html {
+  background-color: #121212;
+  color: #fff;
+}
+
+/* Light mode theme */
+html.light-mode {
+  background-color: #f5f5f5;
+  color: #121212;
+}
+
+html.dark-mode {
   background-color: #121212;
   color: #fff;
 }
@@ -18,19 +36,45 @@ html, body {
 
 /* Terminal-like styling */
 .terminal {
-  background-color: #1e1e1e;
   border-radius: 8px;
   padding: 2rem;
   position: relative;
   line-height: 1.6;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-/* Optional terminal "traffic lights" */
+/* Dark mode terminal */
+html.dark-mode .terminal {
+  background-color: #1e1e1e;
+  color: #fff;
+}
+
+/* Light mode terminal */
+html.light-mode .terminal {
+  background-color: #f0f0f0;
+  color: #121212;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* RTL Support */
+.rtl {
+  direction: rtl;
+  text-align: right;
+}
+
+.ltr {
+  direction: ltr;
+  text-align: left;
+}
+
+/* Terminal header with traffic lights */
 .terminal-header {
   display: flex;
   gap: 8px;
   margin-bottom: 1rem;
+  align-items: center;
 }
+
 .terminal-header .dot {
   width: 12px;
   height: 12px;
@@ -40,16 +84,43 @@ html, body {
 .dot.yellow { background: #ffbd2e; }
 .dot.green { background: #27c93f; }
 
+/* Theme toggle button */
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: auto;
+  padding: 0;
+}
+
+.rtl .theme-toggle {
+  margin-left: 0;
+  margin-right: auto;
+}
+
 /* Blinking cursor effect */
 .cursor::after {
   content: "";
   display: inline-block;
   width: 8px;
   height: 16px;
-  background-color: #ccc;
   margin-left: 4px;
   animation: blink 1s infinite;
   vertical-align: bottom;
+}
+
+html.dark-mode .cursor::after {
+  background-color: #ccc;
+}
+
+html.light-mode .cursor::after {
+  background-color: #333;
+}
+
+.rtl .cursor::after {
+  margin-left: 0;
+  margin-right: 4px;
 }
 
 @keyframes blink {
@@ -61,11 +132,32 @@ html, body {
 .language-toggle {
   position: absolute;
   top: 1rem;
-  right: 1rem;
+  padding: 5px 10px;
+  border-radius: 4px;
   text-decoration: none;
-  color: #fff;
   opacity: 0.8;
+  font-weight: bold;
+  transition: opacity 0.2s, background-color 0.2s;
 }
+
+.ltr .language-toggle {
+  right: 1rem;
+}
+
+.rtl .language-toggle {
+  left: 1rem;
+}
+
+html.dark-mode .language-toggle {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+html.light-mode .language-toggle {
+  color: #333;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
 .language-toggle:hover {
   opacity: 1;
 }
@@ -75,11 +167,57 @@ html, body {
   display: inline-block;
   margin-top: 1.5rem;
   padding: 0.5rem 1rem;
-  background-color: #1273ea;
-  color: #fff;
   border-radius: 4px;
   text-decoration: none;
+  transition: background-color 0.2s;
 }
-.button:hover {
+
+html.dark-mode .button {
+  background-color: #1273ea;
+  color: #fff;
+}
+
+html.light-mode .button {
   background-color: #1059a3;
+  color: #fff;
+}
+
+html.dark-mode .button:hover {
+  background-color: #1059a3;
+}
+
+html.light-mode .button:hover {
+  background-color: #0c4583;
+}
+
+/* Contact email */
+.contact-email {
+  color: inherit;
+}
+
+html.dark-mode .contact-email {
+  color: #1059a3;
+}
+
+html.light-mode .contact-email {
+  color: #0c4583;
+}
+
+/* Use appropriate fonts for Arabic */
+html[lang="ar"] body {
+  font-family: "Noto Kufi Arabic", "Noto Sans Arabic", sans-serif;
+}
+
+/* Adjust font sizes for Arabic if needed */
+html[lang="ar"] h1 {
+  font-size: 1.8rem;
+}
+
+html[lang="ar"] h2 {
+  font-size: 1.5rem;
+}
+
+html[lang="ar"] p {
+  font-size: 1rem;
+  line-height: 1.8;
 }

@@ -4,6 +4,7 @@ import path from 'path'
 import fs from 'fs'
 import Head from 'next/head'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 
 interface Messages {
   title: string
@@ -24,9 +25,37 @@ interface HomeProps {
 export default function Home({ messages }: HomeProps) {
   const router = useRouter()
   const { locale, asPath } = router
-
-  // Toggle between 'en' and 'ar'
-  const otherLocale = locale === 'en' ? 'ar' : 'en'
+  const isRTL = locale === 'ar'
+  const otherLocale = isRTL ? 'en' : 'ar'
+  
+  // Theme state (light/dark)
+  const [isDarkMode, setIsDarkMode] = useState(true)
+  
+  // Apply RTL/LTR to the HTML element
+  useEffect(() => {
+    document.documentElement.dir = isRTL ? 'rtl' : 'ltr'
+    document.documentElement.lang = locale || 'en'
+  }, [isRTL, locale])
+  
+  // Initialize theme from localStorage if available
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme')
+    if (savedTheme) {
+      setIsDarkMode(savedTheme === 'dark')
+    }
+  }, [])
+  
+  // Apply theme class to the HTML element
+  useEffect(() => {
+    document.documentElement.classList.toggle('light-mode', !isDarkMode)
+    document.documentElement.classList.toggle('dark-mode', isDarkMode)
+    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light')
+  }, [isDarkMode])
+  
+  // Toggle theme
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode)
+  }
 
   return (
     <>
@@ -39,17 +68,19 @@ export default function Home({ messages }: HomeProps) {
       </Head>
 
       <div className="container">
-        <div className="terminal">
+        <div className={`terminal ${isRTL ? 'rtl' : 'ltr'}`}>
           {/* Terminal "traffic lights" (optional UI flair) */}
           <div className="terminal-header">
             <div className="dot red"></div>
             <div className="dot yellow"></div>
             <div className="dot green"></div>
+            
+
           </div>
 
           {/* Language toggle link */}
           <Link href={asPath} locale={otherLocale} className="language-toggle">
-            {locale === 'en' ? 'AR' : 'EN'}
+            {locale === 'en' ? 'العربية' : 'English'}
           </Link>
 
           {/* Hero / Tagline */}
@@ -73,7 +104,7 @@ export default function Home({ messages }: HomeProps) {
           <p>{messages.achievementDescription}</p>
 
           {/* Contact Button */}
-          <p  style={{ color: '#1059a3' }} > contact@najran.dev</p>
+          <p className="contact-email">contact@najran.dev</p>
 
           <a href="mailto:contact@najran.dev" className="button">
             {messages.contactCTA}
