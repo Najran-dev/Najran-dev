@@ -16,6 +16,7 @@ interface Messages {
   achievementTitle: string
   achievementDescription: string
   contactCTA: string
+  privacyPolicyCTA: string
 }
 
 interface HomeProps {
@@ -106,9 +107,15 @@ export default function Home({ messages }: HomeProps) {
           {/* Contact Button */}
           <p className="contact-email">contact@najran.dev</p>
 
-          <a href="mailto:contact@najran.dev" className="button">
-            {messages.contactCTA}
-          </a>
+          <div className="action-row">
+            <a href="mailto:contact@najran.dev" className="button">
+              {messages.contactCTA}
+            </a>
+
+            <Link href="/privacy-policy" className="button secondary-button">
+              {messages.privacyPolicyCTA}
+            </Link>
+          </div>
         </div>
       </div>
     </>
